@@ -16,37 +16,33 @@ class Base(DeclarativeBase):
 
 db = SQLAlchemy(model_class=Base)
 login_manager = LoginManager()
-
-app = Flask(__name__)
-
-# Verify Redis connection
-try:
-    redis_client = Redis(host="localhost", port=6379)
-    redis_client.ping()
-    print("Redis is connected and running!")
-except Exception as e:
-    print(
-        f"Failed to connect to Redis. MAKE SURE REDIS IS RUNNING (sudo service redis-server start):\n {e}"
-    )
-    # Terminate the application if Redis is not running
-    raise
-
-# Rate limiting configuration
-limiter = Limiter(
-    get_remote_address,
-    app=app,
-    storage_uri="redis://localhost:6379",  # This is the redis connection
-)
+limiter = Limiter(key_func=get_remote_address, default_limits=[])
 
 
-def create_app():
+def create_app(testing=False):
     load_dotenv()
     verify_env.check_env_variables_exist()
 
+    app = Flask(__name__)
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URI")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+    if testing:
+        app.config["TESTING"] = True
+        app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+        app.config["WTF_CSRF_ENABLED"] = False
+        app.config["RATELIMIT_ENABLED"] = False
+        limiter.enabled = False
+
+    # Attempt Redis connection within app context
+    try:
+        redis_client = Redis(host="localhost", port=6379)
+        redis_client.ping()
+    except Exception as e:
+        raise RuntimeError(f"Redis connection failed: {e}")
+
+    limiter.storage_uri = "redis://localhost:6379"
     limiter.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
@@ -67,16 +63,14 @@ def create_app():
 
         db.create_all()
 
+    @login_manager.user_loader
+    def load_user(user_id):
+        from app.models.user import User
+
+        return User.query.filter_by(id=user_id).first()
+
+    @app.context_processor
+    def inject_user():
+        return dict(user=current_user)
+
     return app
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    from app.models.user import User
-
-    return User.query.filter_by(id=user_id).first()
-
-
-@app.context_processor
-def inject_user():
-    return dict(user=current_user)

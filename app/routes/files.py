@@ -74,6 +74,7 @@ def upload():
 @files.route("/download/<int:file_id>/<filename>", methods=["GET"])
 @login_required
 def download_file(filename, file_id):
+    # Legacy, replace with Session.get()
     uploaded_file = UploadedFile.query.get(file_id)
 
     if not uploaded_file or uploaded_file.filename != filename:
@@ -89,6 +90,7 @@ def download_file(filename, file_id):
 @login_required
 def delete_file(file_id):
     # Get the file from the database
+    # Legacy, replace with Session.get()
     uploaded_file = UploadedFile.query.get(file_id)
 
     # Ensure the file exists and belongs to the current user
