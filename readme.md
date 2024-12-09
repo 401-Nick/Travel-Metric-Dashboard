@@ -65,7 +65,7 @@ The **Metrics Dashboard** is a Flask-based application designed to provide users
 
 5. Create a `.env` file in the `app` directory with the following content:
    ```
-   DATABASE_URL="sqlite:///users.db"
+   DATABASE_URI="sqlite:///users.db"
    SECRET_KEY="your_secret_key"
    ```
    Replace `your_secret_key` with a secret key of your choice.
