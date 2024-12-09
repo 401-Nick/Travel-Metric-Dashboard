@@ -44,12 +44,8 @@ def create_app():
     verify_env.check_env_variables_exist()
 
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URI")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-    print(app.secret_key)
-    print(f"Database URL: {app.config['SQLALCHEMY_DATABASE_URI']}")
-    print(f"Secret Key: {app.config['SECRET_KEY']}")
 
     limiter.init_app(app)
     db.init_app(app)
