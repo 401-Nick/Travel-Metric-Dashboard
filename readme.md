@@ -44,7 +44,7 @@ The **Metrics Dashboard** is a Flask-based application designed to provide users
    ```
 
 3. **Create a virtual environment**:
-   - On macOS/Linux:
+   - On macOS/Linux (Untested):
      ```
      python3 -m venv venv
      ```
@@ -54,7 +54,7 @@ The **Metrics Dashboard** is a Flask-based application designed to provide users
      ```
 
 4. **Activate the virtual environment**:
-   - On macOS/Linux:
+   - On macOS/Linux (Untested):
      ```
      source venv/bin/activate
      ```
