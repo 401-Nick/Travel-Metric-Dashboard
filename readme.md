@@ -75,12 +75,15 @@ The **Metrics Dashboard** is a Flask-based application designed to provide users
    pip install -r requirements.txt
    ```
 
-7. Navigate to the `app` directory:
+7. Verify that Redis is installed and accessable by your system on port 6379. If not, you can download it from the [Redis website](https://redis.io/download). (Will improve this in the future, I use WSL to run Redis)
+
+8. Navigate to the `app` directory:
    ```
    cd app
    ```
 
-8. Run the flask application:
+9. Run the flask application:
    ```
    flask run
    ```
+
