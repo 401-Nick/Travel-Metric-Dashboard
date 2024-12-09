@@ -36,21 +36,30 @@ The **Metrics Dashboard** is a Flask-based application designed to provide users
    ```bash
    git clone https://github.com/401-Nick/Travel-Metric-Dashboard.git
    ```
-2. Install dependencies using:
+
+2. Navigate to the project directory.
+   ```bash
+   cd Travel-Metric-Dashboard
+   ```
+
+3. Install dependencies using:
    ```bash
    pip install -r requirements.txt
    ```
-3. Create a `.env` file in the `app` directory with the following content:
+
+4. Create a `.env` file in the `app` directory with the following content:
    ```env
    DATABASE_URL="sqlite:///users.db"
-   SECRET_KEY="secretkey!"
+   SECRET_KEY="your_secret_key"
    ```
    Replace `your_secret_key` with a secret key of your choice.
-4. navigate to the `app` directory:
+
+5. Navigate to the `app` directory:
    ```bash
    cd app
    ```
-5. 
-```bash
+
+6. Run the flask application:
+   ```bash
    flask run
    ```
