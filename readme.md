@@ -33,6 +33,9 @@ The **Metrics Dashboard** is a Flask-based application designed to provide users
 
 ## Installation
 1. Clone the repository.
+   ```bash
+   git clone https://github.com/401-Nick/Travel-Metric-Dashboard.git
+   ```
 2. Install dependencies using:
    ```bash
    pip install -r requirements.txt
