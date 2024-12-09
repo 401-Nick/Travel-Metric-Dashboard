@@ -63,17 +63,17 @@ The **Metrics Dashboard** is a Flask-based application designed to provide users
      .\venv\Scripts\activate
      ```
 
-5. Install dependencies using:
-   ```
-   pip install -r requirements.txt
-   ```
-
-6. Create a `.env` file in the `app` directory with the following content:
+5. Create a `.env` file in the `app` directory with the following content:
    ```
    DATABASE_URL="sqlite:///users.db"
    SECRET_KEY="your_secret_key"
    ```
    Replace `your_secret_key` with a secret key of your choice.
+
+6. Install dependencies using:
+   ```
+   pip install -r requirements.txt
+   ```
 
 7. Navigate to the `app` directory:
    ```
