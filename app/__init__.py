@@ -6,6 +6,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv
 from redis import Redis
+from app.utils import verify_env
 import os
 
 
@@ -27,6 +28,8 @@ except Exception as e:
     print(
         f"Failed to connect to Redis. MAKE SURE REDIS IS RUNNING (sudo service redis-server start):\n {e}"
     )
+    # Terminate the application if Redis is not running
+    raise
 
 # Rate limiting configuration
 limiter = Limiter(
@@ -38,6 +41,7 @@ limiter = Limiter(
 
 def create_app():
     load_dotenv()
+    verify_env.check_env_variables_exist()
 
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")

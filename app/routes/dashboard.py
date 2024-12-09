@@ -23,17 +23,7 @@ def home():
         return render_template("dashboard.html", uploaded_files=[])
 
     # Initialize DataFrame
-    columns = [
-        "Booking Date",
-        "Revenue",
-        "Cost",
-        "Refund",
-        "Canceled",
-        "Destination",
-        "Customer Name",
-    ]
-    data = pd.DataFrame(columns=columns)
-    data.fillna(0, inplace=True)
+    data = pd.DataFrame()
 
     # Load and concatenate CSVs
     for f in uploaded_files:
@@ -44,23 +34,16 @@ def home():
                 filepath, na_values=["", "NA", "NAN"], keep_default_na=False
             ).fillna(0)
 
-            # Skip processing if the DataFrame is empty
             if not df.empty:
-                # Drop columns with all-NA values
                 df = df.dropna(how="all", axis=1)
 
-                # Ensure "Booking Date" is parsed correctly if present
                 if "Booking Date" in df.columns:
                     df["Booking Date"] = pd.to_datetime(
                         df["Booking Date"], errors="coerce"
                     )
 
-                # Concatenate only if the DataFrame is not empty after cleaning
                 if not df.empty:
-                    data = pd.concat([data, df], ignore_index=True)
-
-    # Ensure consistent data types and suppress the FutureWarning
-    data = data.fillna(0).infer_objects(copy=False)
+                    data = pd.concat([data, df])
 
     # Metrics Calculation
     total_bookings = len(data)
