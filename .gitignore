@@ -1,0 +1,9 @@
+env/
+.env
+*.pyc
+instance/
+uploads/
+__pycache__/
+models/__pycache__/
+routes/__pycache__/
+utils/__pycache__/

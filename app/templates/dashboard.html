@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="text-center text-primary">Metrics Dashboard</h1>
+
+  <!-- Metric Cards -->
+  <div class="d-xl-flex flex-column m-auto">
+    <!-- Row 1 -->
+    <div class="d-flex justify-content-center align-items-stretch mb-3">
+      <div class="card text-center shadow-lg mx-2 flex-grow-1">
+        <div class="card-body">
+          <h5 class="card-title text-uppercase text-info">Total Revenue</h5>
+          <p class="card-text display-4 text-success">{{ total_revenue_metric }}</p>
+        </div>
+      </div>
+      <div class="card text-center shadow-lg mx-2 flex-grow-1">
+        <div class="card-body">
+          <h5 class="card-title text-uppercase text-info">Average Cost</h5>
+          <p class="card-text display-4 text-warning">{{ average_cost_metric }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="d-flex justify-content-center align-items-stretch mb-3">
+      <div class="card text-center shadow-lg mx-2 flex-grow-1">
+        <div class="card-body">
+          <h5 class="card-title text-uppercase text-info">Maximum Refund</h5>
+          <p class="card-text display-4 text-danger">{{ max_refund_metric }}</p>
+        </div>
+      </div>
+      <div class="card text-center shadow-lg mx-2 flex-grow-1">
+        <div class="card-body">
+          <h5 class="card-title text-uppercase text-info">Canceled Bookings</h5>
+          <p class="card-text display-4 text-danger">{{ canceled_count_metric }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="d-flex justify-content-center align-items-stretch mb-3">
+      <div class="card text-center shadow-lg mx-2 flex-grow-1">
+        <div class="card-body">
+          <h5 class="card-title text-uppercase text-info">Total Bookings</h5>
+          <p class="card-text display-4 text-primary">{{ total_bookings_metric }}</p>
+        </div>
+      </div>
+      <div class="card text-center shadow-lg mx-2 flex-grow-1">
+        <div class="card-body">
+          <h5 class="card-title text-uppercase text-info">Total Locations</h5>
+          <p class="card-text display-4 text-primary">{{ total_locations_metric }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 4 -->
+    <div class="d-flex justify-content-center align-items-stretch mb-3">
+      <div class="card text-center shadow-lg mx-2 flex-grow-1">
+        <div class="card-body">
+          <h5 class="card-title text-uppercase text-info">Refund Rate</h5>
+          <p class="card-text display-4 text-muted">{{ refund_rate_metric }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="row mt-5">
+    <div class="col-md-12 mb-4">
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <h5 class="card-title text-center text-primary">Revenue vs Cost</h5>
+          <div id="chart-revenue-vs-cost">{{ revenue_cost_chart_html|safe }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <h5 class="card-title text-center text-primary">Refund Distribution</h5>
+          <div id="chart-refund">{{ refund_chart_html|safe }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <h5 class="card-title text-center text-primary">Canceled Bookings by Location</h5>
+          <div id="chart-canceled-location">{{ canceled_location_chart_html|safe }}</div>
+        </div>
+      </div>
+    </div>
+
+    {% if monthly_revenue_chart_html %}
+    <div class="col-md-12 mb-4">
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <h5 class="card-title text-center text-primary">Monthly Revenue Trends</h5>
+          <div id="chart-monthly-revenue">{{ monthly_revenue_chart_html|safe }}</div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if top_destinations_chart_html %}
+    <div class="col-md-12 mb-4">
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <h5 class="card-title text-center text-primary">Top Destinations by Revenue</h5>
+          <div id="chart-top-destinations">{{ top_destinations_chart_html|safe }}</div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Floating Action Button (FAB) -->
+  <button class="btn btn-primary shadow-lg" data-bs-toggle="modal" data-bs-target="#uploadModal" style="
+      position: fixed; 
+      bottom: 20px; 
+      right: 20px; 
+      height: 60px; 
+      width: 60px; 
+      font-size: 24px; 
+      border-radius: 50%; 
+      background: #0d6efd;
+      color: white;">
+    +
+  </button>
+
+  <!-- File Upload Modal -->
+  <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary" id="uploadModalLabel">Upload File</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('files.upload') }}">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="file" class="form-label">Choose a file</label>
+              <input type="file" class="form-control" id="file" name="file" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Upload</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+
+
+
+    <!-- Uploaded Files Table -->
+    <h3 class="mt-4">Uploaded Files</h3>
+    {% if uploaded_files %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Filename</th>
+                <th>Uploaded At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in uploaded_files %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ file.filename }}</td>
+                <td>{{ file.uploaded_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>
+                    <!-- Download Button -->
+                    <a href="{{ url_for('files.download_file', filename=file.filename, file_id=file.id) }}"
+                        class="btn btn-sm btn-primary">
+                        Download
+                    </a>
+                    <!-- Delete Button -->
+                    <form method="POST" action="{{ url_for('files.delete_file', file_id=file.id) }}"
+                        style="display: inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                    <!-- Rename Button -->
+                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                        data-bs-target="#renameModal{{ file.id }}">
+                        Rename
+                    </button>
+                    <!-- Rename Modal -->
+                    <div class="modal fade text-start" id="renameModal{{ file.id }}" tabindex="-1"
+                        aria-labelledby="renameModalLabel{{ file.id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="renameModalLabel{{ file.id }}">Rename File</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form method="POST" action="{{ url_for('files.rename_file', file_id=file.id) }}">
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="new_filename" class="form-label">New Filename</label>
+                                            <input type="text" class="form-control" id="new_filename"
+                                                name="new_filename" value="{{ file.filename }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Rename</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No files uploaded yet.</p>
+    {% endif %}
+</div>
+
+<!-- Floating Action Button (FAB) -->
+<button class="btn btn-primary  d-flex justify-content-center align-items-center shadow" data-bs-toggle="modal"
+    data-bs-target="#uploadModal" style="
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
+            width: fit-content;
+            height: 60px; 
+            font-size: 24px;">
+    Upload File
+</button>
+
+<!-- File Upload Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">Upload File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" enctype="multipart/form-data" action="{{ url_for('files.upload') }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Choose a file</label>
+                        <input type="file" class="form-control" id="file" name="file" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

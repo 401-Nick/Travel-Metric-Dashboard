@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+<!-- This is the login page, it should have a form that collects a username and password, a submit button, and a link to the register page -->
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4 mt-5 text-light">
+            <h2>Login</h2>
+            <form action="{{ url_for('auth.login') }}" method="POST">
+                {{ form.hidden_tag() }} <!--CSRF token-->
+
+                <!-- Username Field -->
+                <div class="form-group mb-3 ">
+                    <label for="username">Username</label>
+                    {{ form.username(class="form-control", placeholder="Enter your username") }}
+                    {% if form.username.errors %}
+                    <small class="text-danger">{{ form.username.errors[0] }}</small>
+                    {% endif %}
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group mb-3">
+                    <label for="password">Password</label>
+                    {{ form.password(class="form-control", placeholder="Enter your password") }}
+                    {% if form.password.errors %}
+                    <small class="text-danger">{{ form.password.errors[0] }}</small>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-flex justify-content-center mt-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+                <!-- Link to Register Page -->
+                <div class="d-flex justify-content-center mt-3">
+                    <a href="{{ url_for('auth.register') }}">Don't have an account? Register here</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
