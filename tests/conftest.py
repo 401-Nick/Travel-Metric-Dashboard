@@ -11,10 +11,10 @@ def test_app():
     Sets up an in-memory SQLite database for isolation.
     """
     app = create_app(testing=True)
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"  # Use in-memory DB
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
     app.config["WTF_CSRF_ENABLED"] = False  # Disable CSRF for testing
-    app.config["SECRET_KEY"] = "test_secret_key"  # Test secret key
-    app.url_map.strict_slashes = False  # Disable strict slashes
+    app.config["SECRET_KEY"] = "test_secret_key"
+    app.url_map.strict_slashes = False
 
     with app.app_context():
         db.create_all()  # Set up tables
@@ -44,5 +44,8 @@ def setup_user(test_app):
 
 @pytest.fixture
 def logged_in_client(client, setup_user):
+    """
+    Logs in a test user and returns the client for making requests.
+    """
     client.post("/login", data={"username": "testuser", "password": "password123"})
     return client

@@ -1,7 +1,5 @@
 {% extends "base.html" %}
-<!-- This is the index, login/register page -->
 {% block content %}
-<!-- Write HTMX + Bootstrap INSIDE -->
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3 mt-5 text-light">
@@ -10,9 +8,6 @@
                 in a dashboard.</p>
             <p>Click the button below to register or login.</p>
 
-            <!-- Write CSS to equally space the buttons -->
-            <!-- <div class="d-flex justify-content-center mt-3"> -->
-            <!-- This code deosnt work, they buttons are not equally spaced -->
             <div class="d-flex justify-content-around mt-3">
 
                 <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Register</a>
