@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container mt-5">
-  <h1 class="text-center text-primary">Metrics Dashboard</h1>
+  <h1 class="text-center">Metrics Dashboard</h1>
 
   <!-- Metric Cards -->
   <div class="d-xl-flex flex-column m-auto">
@@ -59,7 +59,7 @@
       <div class="card text-center shadow-lg mx-2 flex-grow-1">
         <div class="card-body">
           <h5 class="card-title text-uppercase">Refund Rate</h5>
-          <p class="card-text display-4 text-muted">{{ refund_rate_metric }}</p>
+          <p class="card-text display-4">{{ refund_rate_metric }}</p>
         </div>
       </div>
     </div>
@@ -70,7 +70,7 @@
     <div class="col-md-12 mb-4">
       <div class="card shadow-lg">
         <div class="card-body">
-          <h5 class="card-title text-center text-primary">Revenue vs Cost</h5>
+          <h5 class="card-title text-center">Revenue vs Cost</h5>
           <div id="chart-revenue-vs-cost">{{ revenue_cost_chart_html|safe }}</div>
         </div>
       </div>
@@ -79,7 +79,7 @@
     <div class="col-md-6 mb-4">
       <div class="card shadow-lg">
         <div class="card-body">
-          <h5 class="card-title text-center text-primary">Refund Distribution</h5>
+          <h5 class="card-title text-center">Refund Distribution</h5>
           <div id="chart-refund">{{ refund_chart_html|safe }}</div>
         </div>
       </div>
@@ -88,7 +88,7 @@
     <div class="col-md-6 mb-4">
       <div class="card shadow-lg">
         <div class="card-body">
-          <h5 class="card-title text-center text-primary">Canceled Bookings by Location</h5>
+          <h5 class="card-title text-center">Canceled Bookings by Location</h5>
           <div id="chart-canceled-location">{{ canceled_location_chart_html|safe }}</div>
         </div>
       </div>
@@ -98,7 +98,7 @@
     <div class="col-md-12 mb-4">
       <div class="card shadow-lg">
         <div class="card-body">
-          <h5 class="card-title text-center text-primary">Monthly Revenue Trends</h5>
+          <h5 class="card-title text-center">Monthly Revenue Trends</h5>
           <div id="chart-monthly-revenue">{{ monthly_revenue_chart_html|safe }}</div>
         </div>
       </div>
@@ -109,7 +109,7 @@
     <div class="col-md-12 mb-4">
       <div class="card shadow-lg">
         <div class="card-body">
-          <h5 class="card-title text-center text-primary">Top Destinations by Revenue</h5>
+          <h5 class="card-title text-center">Top Destinations by Revenue</h5>
           <div id="chart-top-destinations">{{ top_destinations_chart_html|safe }}</div>
         </div>
       </div>

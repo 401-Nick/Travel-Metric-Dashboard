@@ -40,7 +40,9 @@ def create_app(testing=False):
         redis_client = Redis(host="localhost", port=6379)
         redis_client.ping()
     except Exception as e:
-        raise RuntimeError(f"Redis connection failed: {e}")
+        raise Exception(
+            "Redis connection failed | MAKE SURE REDIS IS RUNNING sudo service redis-server start"
+        )
 
     limiter.storage_uri = "redis://localhost:6379"
     limiter.init_app(app)

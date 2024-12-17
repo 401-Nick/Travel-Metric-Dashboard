@@ -1,1 +1,1 @@
-print("Initializing tests")
+print("...")

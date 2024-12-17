@@ -59,16 +59,26 @@ def home():
         if "Booking Date" in data and not data["Booking Date"].empty:
             data["Month"] = data["Booking Date"].dt.to_period("M").astype(str)
             monthly_revenue = data.groupby("Month")["Revenue"].sum().reset_index()
-            return px.line(monthly_revenue, x="Month", y="Revenue").to_html(
-                full_html=False
+            return px.line(
+                monthly_revenue,
+                x="Month",
+                y="Revenue",
+                template="plotly_dark",
+            ).to_html(
+                full_html=False,
             )
         return "Upload a file to see monthly revenue trends"
 
     def generate_destinations_chart():
         if "Destination" in data and "Revenue" in data:
             dest_revenue = data.groupby("Destination")["Revenue"].sum().reset_index()
-            return px.bar(dest_revenue, x="Destination", y="Revenue").to_html(
-                full_html=False
+            return px.bar(
+                dest_revenue,
+                x="Destination",
+                y="Revenue",
+                template="plotly_dark",
+            ).to_html(
+                full_html=False,
             )
         return "Upload a file to see destinations by revenue"
 
@@ -81,6 +91,7 @@ def home():
                 labels={"Revenue": "Revenue ($)", "Cost": "Cost ($)"},
                 hover_data=["Destination", "Customer Name"],
                 color="Destination",
+                template="plotly_dark",
             ).to_html(full_html=False)
         return "Upload a file to see revenue vs cost scatter plot"
 
@@ -106,6 +117,7 @@ def home():
                 return px.pie(
                     refund_data,
                     names="Refund Range",
+                    template="plotly_dark",
                 ).to_html(full_html=False)
             else:
                 return "Refund data exists but no positive values to generate the distribution"
@@ -117,6 +129,7 @@ def home():
                 data,
                 x="Destination",
                 y="Canceled",
+                template="plotly_dark",
             ).to_html(full_html=False)
         return "Upload a file to see canceled bookings by destination"
 

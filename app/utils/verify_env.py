@@ -9,4 +9,4 @@ def check_env_variables_exist():
             "No environment variables found. Please create a .env file in the root directory. Travel-Metric-Dashboard/.env and add the following variables: SECRET_KEY, DATABASE_URI"
         )
     else:
-        print("Continuing with app initialization...")
+        print("...")
